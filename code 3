@@ -1,0 +1,62 @@
+var SONICL_TRIG = A0;
+var SONICL_ECHO = B8;
+var SONICR_TRIG = A1;
+var SONICR_ECHO = B9;
+var LDR = [A5,A6,A7,B1];
+var SERVO = [B14,B15];
+
+//Ultrasonic
+var SONICL = require("HC-SR04").connect(SONICL_TRIG, SONICL_ECHO, function(dist) {
+  console.log("left "+dist+" cm away");
+});
+
+SONICL.trigger(); 
+
+// Optical sensor
+//var sensorSPI = new SPI();
+//sensorSPI.setup({mosi:B4,miso:B5,sck:B3,mode:3});
+//var sensor = require("ADNS5050").connect(sensorSPI,A10);
+// sensor.getImage() returns a Uint8Array of 19x19 pixels
+// sensor.getLine() returns a Uint8Array of 19 pixels (the first line)
+//sensor.drawImage(sensor.getImage()); // this will draw that array to the console
+
+// LDRs
+//for (var i in LDR)
+//  console.log(i, analogRead(LDR[i]));
+
+// WiFi
+/*Serial2.setup(9600, { rx: A3, tx : A2 });
+var wifi = require("ESP8266WiFi").connect(Serial2, function(err) {
+  if (err) throw err;
+  wifi.reset(function(err) {
+    if (err) throw err;
+    console.log("Connecting to WiFi");
+    wifi.connect("WiFi_Name","WPA2_Key", function(err) {
+      if (err) throw err;
+      console.log("Connected");
+      // Now you can do something, like an HTTP request
+      require("http").get("http://www.pur3.co.uk/hello.txt", function(res) {
+        console.log("Response: ",res);
+        res.on('data', function(d) {
+          console.log("--->"+d);
+        });
+      });
+    });
+  });
+});*/
+
+// Bluetooth
+//Serial1.println("Hello World");
+//Serial1.on('data', function(d) { console.log("Got "+JSON.stringify(d)); });
+/* When USB is disconnected you can program the Espruino via bluetooth,
+  Or to keep the above working add a call to USB.setConsole(); */
+
+// Servos
+var pos = [0.3, 0.3];
+setInterval(function() {
+  for (var i in SERVO)
+    digitalPulse(SERVO[i], 1, 1 + pos[i]);
+}, 20);
+// Now set pos[x] to any values between 0 and 1
+// eg. function forward() { pos=[0.5,0.5,0,1]; }
+//     function back() { pos=[0.5,0.5,1,0]; }

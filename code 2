@@ -1,0 +1,30 @@
+var  on = false;
+var SERVO = [B14, B15];
+
+setInterval(function() {
+  on = !on;
+  LED1.write(on);
+  LED2.write(!on);
+}, 500);
+
+var pos =[0.3, 0.3];
+setInterval(function() {
+  for (var i in SERVO)
+  {
+    digitalPulse(SERVO[i], 1, E.clip(1 + pos[i]));
+    console.log(E.clip(1 + pos[i]));
+  }
+  print("Next");
+}, 20);
+
+function forward() {
+  pos = [1.2, 2.6];
+}
+
+function back() {
+  pos = [0.3, 0.3];
+}
+
+function stop() {
+  pos = [0.3, 0.3];
+}
